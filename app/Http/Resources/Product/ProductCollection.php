@@ -2,14 +2,20 @@
 
 namespace App\Http\Resources\Product;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-// TILL NOW THIS CODE DOES NOT MATTER
-// class ProductCollection extends ResourceCollection
-// {
+class ProductCollection extends JsonResource
+{
     
-//     public function toArray($request)
-//     {
-//         return parent::toArray($request);
-//     }
-// }
+    public function toArray($request)
+    {
+        return [
+            'name'=> $this->name,
+            'totalPrice'=> round((1-($this->discount/100)) * $this->price,2),
+            'rating'=>round($this->reviews->avg('star'),2),
+            'href'=>[
+                'link' => route('products.show',$this->id)
+            ]
+        ];
+    }
+}
