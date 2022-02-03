@@ -8,6 +8,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('index','show');
+        $this->middleware('auth:api')->except('index','show','UserProductShow');
     }
 
     public function index()
@@ -23,6 +24,9 @@ class ProductController extends Controller
         return ProductCollection::collection(Product::paginate(20));
     }
 
+    public function UserProductShow(User $user){
+        return ProductCollection::collection($user->products);
+    }
     
     public function create()
     {

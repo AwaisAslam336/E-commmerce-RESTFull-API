@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReviewResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,11 @@ class ReviewResource extends JsonResource
     {
         return [
             'id'=> $this->id,
-            'customer'=>$this->customer,
-            'body'=> $this->review,
-            'star'=>$this->star
+            'name'=>$this->name,
+            'email'=> $this->email,
+            'href'=>[
+                'products' => route('user.products.show',$this->id)
+            ]
         ];
     }
 }
